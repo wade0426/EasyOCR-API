@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     MODEL_STORAGE_DIR: Path = Field(default=Path(r"C:\Users\ramune\Desktop\LocalModels\easyocr"))
     OCR_LANGUAGES: list[str] = Field(default_factory=lambda: ["ch_tra", "en"])
-    USE_GPU: bool = False
+    USE_GPU: bool = True
     HOST: str = "0.0.0.0"
     PORT: int = 8080
     LOG_LEVEL: str = "info"
