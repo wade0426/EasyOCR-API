@@ -13,9 +13,7 @@
 | 檔名 | 用途 | 對應語言代碼 |
 |------|------|-------------|
 | `craft_mlt_25k.pth` | 文字區域偵測（CRAFT Detector） | *(通用)* |
-| `chinese.pth` | 文字辨識（Recognition） | `ch_sim`（簡體中文）|
-
-> EasyOCR 使用 `ch_sim` 時會同時啟用英文辨識，故語言設定為 `["ch_sim", "en"]`。
+| `chinese.pth` | 文字辨識（Recognition） | `ch_tra`（繁體中文）|
 
 ### 不支援清單（硬性限制，不得實作）
 
@@ -64,7 +62,7 @@ easyocr-vision-api/
 | 欄位名稱 | 型別 | 預設值 / 說明 |
 |----------|------|--------------|
 | `MODEL_STORAGE_DIR` | `str` | `C:\Users\ramune\Desktop\LocalModels\easyocr` |
-| `OCR_LANGUAGES` | `List[str]` | `["ch_sim", "en"]` |
+| `OCR_LANGUAGES` | `List[str]` | `["ch_tra", "en"]` |
 | `USE_GPU` | `bool` | `False`（預設 CPU，可改 True）|
 | `HOST` | `str` | `"0.0.0.0"` |
 | `PORT` | `int` | `8000` |
@@ -181,7 +179,7 @@ ChatCompletionResponse
 
 **初始化參數**（由 `config.py` 注入）:
 - `model_storage_directory: str` — 指向本地模型資料夾
-- `languages: List[str]` — 語言列表，預設 `["ch_sim", "en"]`
+- `languages: List[str]` — 語言列表，預設 `["ch_tra", "en"]`
 - `gpu: bool` — 是否使用 GPU
 
 **須實作的方法**（介面定義）:
@@ -310,18 +308,3 @@ python-multipart>=0.0.9
 | EasyOCR 辨識失敗 | 500 | 記錄 traceback，回傳通用錯誤 |
 | 模型檔案不存在 | 啟動失敗 | 服務啟動時即終止，印出明確路徑錯誤 |
 | OCR 結果為空 | 200 | content 回傳空字串，finish_reason 仍為 "stop" |
-
----
-
-## 五、Coding AI 執行順序建議
-
-依照以下順序逐步實作，每個 Phase 完成後應可獨立測試：
-
-1. `requirements.txt` → 確認套件可安裝
-2. `config.py` → 驗證路徑存在
-3. `schemas/openai_compat.py` → 單元測試 Pydantic 驗證
-4. `utils/image_utils.py` → 單元測試 Data URL 解析
-5. `services/ocr_service.py` → 整合測試 EasyOCR 載入與辨識
-6. `routers/chat.py` → API 端點整合測試
-7. `main.py` → 完整 E2E 測試
-
