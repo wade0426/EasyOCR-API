@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     OCR_LANGUAGES: list[str] = Field(default_factory=lambda: ["ch_tra", "en"])
     USE_GPU: bool = False
     HOST: str = "0.0.0.0"
-    PORT: int = 8000
+    PORT: int = 8080
     LOG_LEVEL: str = "info"
 
     @field_validator("MODEL_STORAGE_DIR", mode="before")
